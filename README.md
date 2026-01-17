@@ -1,4 +1,4 @@
-Das Repository für die Gruppe sshustlers.
+Ein ssh lab, um ein Cnn und einen Random Forest zu trainieren, um ssh Traffic zu klassifizieren in getunnelten und nicht getunnelten Traffic, sowohl mit zusätzlicher VPN-Verschlüsselung und ohne. 
 
 # Für server:
 
