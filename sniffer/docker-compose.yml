@@ -1,0 +1,19 @@
+#Services: sniffer
+
+services:
+  sniffer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sniffer
+    network_mode: "container:ssh-client"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    stdin_open: true
+    tty: true
+    volumes:
+      - captures:/sniffer/logs
+
+volumes:
+  captures:

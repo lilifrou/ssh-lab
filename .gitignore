@@ -1,0 +1,123 @@
+# OS-generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor / IDE files
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+.idea/
+*.iml
+
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Build / cache / output
+dist/
+build/
+out/
+target/
+bin/
+obj/
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.a
+*.class
+
+# Logs & temp files
+logs/
+*.log
+*.tmp
+*.temp
+*.pid
+
+# Dependency directories
+node_modules/
+vendor/
+packages/
+
+
+# SSH / credentials
+.ssh/
+.ssh/*
+known_hosts
+authorized_keys
+
+# Certificates / keys / secrets
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+*.ca
+*.keystore
+*.jks
+*.tls
+*.ta
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+*.secret
+*.secrets
+
+# Archives & large binaries
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+*.iso
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# macOS Xcode
+DerivedData/
+
+# Coverage / reports
+coverage/
+*.lcov
+*.gcov
+
+# Misc
+.cache/
+.tmp/
+.temp/
+
+# OpenVPN
+openvpn-data/
+auth.txt
+credentials.txt
+ipp.txt
+openvpn-status.log
+openvpn.log
+*.ovpn.lock
+
+# Databases
+*.db
+*.db-journal
+*.db-shm
+*.db-wal

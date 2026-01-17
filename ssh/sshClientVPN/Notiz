@@ -1,0 +1,10 @@
+SSH-plain: SSH ohne Tunneling
+SSH-tunneling: SSH mit Tunneling
+Run_both_generator: Drittes Skript über das der gesamte Ablauf gesteuert wird
+
+Wollte Run_both_generator ausführen. 
+Problem: Wegen Passworteingabe wird abgebrochen bzw. kann Code nur teilweise gerunned werden.
+
+Lösung:
+Run_both_generator kann nur ausgeführt werden, wenn ein SSH-Key erstellt wurde, 
+sodass Kommandos ohne Passworteingabe ausgeführt werden können

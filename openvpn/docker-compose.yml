@@ -1,0 +1,45 @@
+services:
+  openvpn-as:
+    build:
+      dockerfile: Dockerfile
+    container_name: openvpn-as
+    restart: unless-stopped
+    cap_add:
+      - MKNOD
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1
+    privileged: true
+    devices:
+      - /dev/net/tun
+    ports:
+      - "943:943"
+      - "127.0.0.1:443:443"
+      - "127.0.0.1:1194:1194/udp"
+    volumes:
+      - openvpn-data:/openvpn
+      - profiles:/profiles
+    networks:
+      network_1:
+          ipv4_address: 192.168.100.2
+      network_2:
+          ipv4_address: 172.21.0.3
+#    command: > Funktioniert nicht
+#      bash -c "iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE &&
+#               iptables -A FORWARD -i eth0 -o eth1 -j ACCEPT &&
+#               iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT &&
+#               exec your-main-process"
+
+
+volumes:
+  openvpn-data:
+  profiles:
+    external: true
+
+networks:
+  network_1:
+    driver: bridge
+    external: true
+  network_2:
+    driver: bridge
+    external: true

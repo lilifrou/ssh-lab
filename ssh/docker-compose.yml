@@ -1,0 +1,63 @@
+#Services: client und server
+
+services:
+  openssh-server:
+    build:
+      context: ./sshServer
+    container_name: ssh-server
+    hostname: ssh-server #optional
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PUBLIC_KEY_FILE=/.ssh/id_rsa.pub
+      - SUDO_ACCESS=true #optional
+      - PASSWORD_ACCESS=false #optional, wenn wir stattdessen public key authentication wollen: false
+      - USER_NAME=ssh-user #optional
+      - LOG_STDOUT= #optional, default: /config/log
+    volumes:
+      - ssh_config:/config
+    ports:
+      - "2222:2222"
+
+    restart: unless-stopped
+    networks:
+      network_1:
+        ipv4_address: 192.168.100.100
+
+  ssh-client:
+    build:
+      context: ./sshClient    # Dockerfile Ort
+      dockerfile: Dockerfile
+      args:
+        TRAFFIC_LABEL: ${TRAFFIC_LABEL}  #build-time
+    container_name: ssh-client
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW                   # Für scapy
+    stdin_open: true              # Erlaubt interaktives terminal (ssh)
+    tty: true
+    volumes:
+      - ./sshClient/scripts:/app # mount Skripte für scapy von lokalem Ordner
+    networks:
+       network_1:
+           ipv4_address: 192.168.100.20
+    environment:
+      TRAFFIC_LABEL: ${TRAFFIC_LABEL}
+
+
+
+volumes:
+  ssh_config:
+    external: true
+
+networks:
+  network_1:
+    driver: bridge
+    external: true
+    ipam:
+      config:
+        - subnet: 192.168.100.0/24
+          #gateway: 192.168.100.1

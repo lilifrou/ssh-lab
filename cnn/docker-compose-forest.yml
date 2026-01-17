@@ -1,0 +1,30 @@
+services:
+  forest:
+    build:
+      context: ./forest
+      dockerfile: Dockerfile
+    image: ssh-rf:latest
+    container_name: ssh-rf
+    restart: unless-stopped
+    # If you prefer to pull a prebuilt image later, replace `build:` with `image: yourrepo/ssh-rf:tag`
+    volumes:
+      - sniffer_captures:/sniffer/logs
+      - forest_shared_data:/data       # metrics, confusion matrices, predictions, model file
+    environment:
+      - PYTHONUNBUFFERED=1         # real-time logs
+      - TZ=Europe/Berlin
+    # default CMD is in Dockerfile; uncomment next line to pass args or a different script
+    # command: ["python", "ssh_rf.py"]
+    healthcheck:
+      test: ["CMD-SHELL", "test -d /sniffer/logs && test -d /data"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    env_file:
+      - ../ssh/.env
+volumes:
+    sniffer_captures:
+      external: true
+    forest_shared_data:
+      external: true

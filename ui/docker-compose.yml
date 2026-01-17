@@ -1,0 +1,27 @@
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - FLASK_ENV=development
+    ports:
+      - "5000:5000" # port 5000 ist exposed
+    volumes:
+      - ./dashboard:/app
+      - forest_shared_data:/data
+      - cnn_shared-data:/cnn
+    networks:
+      network_1:
+        ipv4_address: 192.168.100.7
+
+volumes:
+  forest_shared_data:
+    external: true
+  cnn_shared-data:
+    external: true
+
+networks:
+  network_1:
+    driver: bridge
+    external: true

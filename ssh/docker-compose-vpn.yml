@@ -1,0 +1,70 @@
+#Services: client und server
+
+services:
+  openssh-server:
+    build:
+      context: ./sshServer
+    container_name: ssh-server
+    hostname: ssh-server #optional
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PUBLIC_KEY_FILE=/.ssh/id_rsa.pub
+      - SUDO_ACCESS=true #optional
+      - PASSWORD_ACCESS=false #optional, wenn wir stattdessen public key authentication wollen: false
+      - USER_NAME=ssh-user #optional
+      - LOG_STDOUT= #optional, default: /config/log
+    volumes:
+      - config:/config
+    ports:
+      - 127.0.0.1:2222:22
+    restart: unless-stopped
+    networks:
+      network_1:
+        ipv4_address: 192.168.100.100
+
+  ssh-client-vpn:
+    build:
+      context: ./sshClientVPN     # Dockerfile Ort
+      dockerfile: Dockerfile
+      args:
+        TRAFFIC_LABEL: ${TRAFFIC_LABEL}  #build-time
+    container_name: ssh-client-vpn
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW                   # Für scapy
+    stdin_open: true              # Erlaubt interaktives terminal (ssh)
+    tty: true
+    volumes:
+      - ./sshClient/scripts:/app # mount Skripte für scapy von lokalem Ordner
+      - profiles:/vpn/profiles
+      #- ./sshClient/vpn:/app #wenn gebraucht vpn client anbinden
+    networks:
+      network_2:
+        ipv4_address: 172.21.0.2
+    devices:
+      - /dev/net/tun
+    environment:
+       TRAFFIC_LABEL: ${TRAFFIC_LABEL}
+
+
+
+volumes:
+  profiles:
+     external: true
+  config:
+
+networks:
+  network_1:
+    driver: bridge
+    external: true
+    ipam:
+      config:
+        - subnet: 192.168.100.0/24
+          #gateway: 192.168.100.1
+  network_2:
+    driver: bridge
+    external: true

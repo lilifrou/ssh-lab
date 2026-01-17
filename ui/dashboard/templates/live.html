@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSH Tunnel Detection - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<style>
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+<div class="container mt-4">
+    <h2 class="mb-3">Live Predictions</h2>
+
+    <div class="table-responsive  rounded p-3">
+        {% for table in tables %}
+            {{ table|safe }}
+        {% endfor %}
+    </div>
+
+    <nav class="mt-4">
+        <a href="/" class="btn btn-primary me-2">Dashboard</a>
+        <a href="/traffic_chart" class="btn btn-secondary">Traffic Chart</a>
+    </nav>
+</div>
+</body>
+</html>
+{% endblock %}

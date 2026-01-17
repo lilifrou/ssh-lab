@@ -1,0 +1,32 @@
+
+services:
+  cnn:
+    container_name: cnn
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #command: sleep infinity
+    volumes:
+      - sniffer_captures:/sniffer/logs
+      - cnn_shared-data:/data
+    networks:
+      network_1:
+        ipv4_address: 192.168.100.5
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all   
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    env_file:
+      - ../ssh/.env
+
+networks:
+  network_1:
+    external: true
+
+volumes:
+  sniffer_captures:
+    external: true
+    
+  cnn_shared-data:
+    external: true
+   
+    
